@@ -1,21 +1,19 @@
-# relationship_app/query_samples.py
+from .models import Author, Book, Library, Librarian
 
-from relationship_app.models import Author, Book, Library, Librarian
-
-# Query all books by a specific author
-def books_by_author(author_name):
-    author = Author.objects.get(name=author_name)
-    books = author.books.all()
+# Query 1: Retrieve all books by a specific author
+def get_books_by_author(author_name):
+    author = Author.objects.filter(name=author_name).first()  # Find the author by name
+    books = Book.objects.filter(author=author)  # Filter books by author
     return books
 
-# List all books in a library
-def books_in_library(library_name):
-    library = Library.objects.get(name=library_name)
-    books = library.books.all()
+# Query 2: List all books in a specific library
+def get_books_in_library(library_name):
+    library = Library.objects.filter(name=library_name).first()  # Find the library by name
+    books = library.books.all() if library else []  # Get all books in the library
     return books
 
-# Retrieve the librarian for a library
-def librarian_of_library(library_name):
-    library = Library.objects.get(name=library_name)
-    librarian = library.librarian  # Access the OneToOneField
+# Query 3: Retrieve the librarian for a specific library
+def get_librarian_for_library(library_name):
+    library = Library.objects.filter(name=library_name).first()  # Find the library by name
+    librarian = library.librarian if library else None  # Get the associated librarian
     return librarian
