@@ -3,7 +3,8 @@ from .models import Book
 from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser
 from django import forms
-
+from django.conf import settings
+from django.contrib.auth import get_user_model
 # Register your models here.
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
@@ -36,3 +37,13 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = UserAdmin.add_fieldsets + (
         (None, {'fields': ('email', 'date_of_birth', 'profile_photo', 'password1', 'password2')}),
     )
+
+
+# Register the CustomUser model with the admin
+admin.site.register(CustomUser, CustomUserAdmin)
+
+class SomeModel(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+
+
