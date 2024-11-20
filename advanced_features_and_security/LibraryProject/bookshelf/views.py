@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .forms import BookForm
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render, get_object_or_404
 from your_app_name.models import Document
@@ -32,3 +33,15 @@ def book_list(request):
 def books(request, book_id):
     book = Book.objects.get(id=book_id)  # Retrieve a specific book by ID
     return render(request, 'book_detail.html', {'book': book})
+
+
+
+def add_book(request):
+    if request.method == 'POST':
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()  # Save the book to the database
+            return redirect('book_list')  # Replace 'book_list' with the name of your list view
+    else:
+        form = BookForm()
+    return render(request, 'bookshelf/add_book.html', {'form': form})
