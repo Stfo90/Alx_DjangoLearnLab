@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render, get_object_or_404
 from your_app_name.models import Document
+from .models import Book
 
 @permission_required('your_app_name.can_view', raise_exception=True)
 def view_document(request, document_id):
@@ -22,3 +23,12 @@ def edit_document(request, document_id):
 def delete_document(request, document_id):
     # Logic to delete a document
     pass
+# View to list all books
+def book_list(request):
+    books = Book.objects.all()  # Retrieve all books from the database
+    return render(request, 'book_list.html', {'books': books})
+
+# View to show details of a specific book
+def books(request, book_id):
+    book = Book.objects.get(id=book_id)  # Retrieve a specific book by ID
+    return render(request, 'book_detail.html', {'book': book})
