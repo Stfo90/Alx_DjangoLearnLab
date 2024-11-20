@@ -40,7 +40,7 @@ class CustomUserAdmin(UserAdmin):
 
 
 # Register the CustomUser model with the admin
-admin.site.register(CustomUser, CustomUserAdmin)
+
 
 class SomeModel(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
