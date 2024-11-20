@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from .forms import ExampleForm
 from .forms import BookForm
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render, get_object_or_404
@@ -45,3 +46,15 @@ def add_book(request):
     else:
         form = BookForm()
     return render(request, 'bookshelf/add_book.html', {'form': form})
+
+
+
+def example_view(request):
+    if request.method == 'POST':
+        form = ExampleForm(request.POST)
+        if form.is_valid():
+            # Process the data (form.cleaned_data contains validated data)
+            print(form.cleaned_data)
+    else:
+        form = ExampleForm()
+    return render(request, 'bookshelf/example_form.html', {'form': form})
