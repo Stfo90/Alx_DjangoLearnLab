@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookshelf - Book List</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>My Bookshelf</h1>
+    </header>
+    <main>
+        <h2>Book List</h2>
+        <ul id="book-list">
+            <!-- Book items will be dynamically added here -->
+        </ul>
+
+        <!-- Add Book Form -->
+        <h3>Add a New Book</h3>
+        <form action="/add-book/" method="post">
+            {% csrf_token %}
+            <label for="book-title">Book Title:</label>
+            <input type="text" id="book-title" name="title" required>
+            <button type="submit">Add Book</button>
+        </form>
+    </main>
+    <footer>
+        <p>&copy; 2023 My Bookshelf</p>
+    </footer>
+    <script src="scripts.js"></script>
+</body>
+</html>
