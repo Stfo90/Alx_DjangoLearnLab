@@ -1,7 +1,7 @@
 # Allows filtering by fields such as title, author, and publication_year
 from rest_framework.filters import OrderingFilter, SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters
+from django_filters import rest_framework
 from rest_framework import generics
 from django.shortcuts import render
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView
