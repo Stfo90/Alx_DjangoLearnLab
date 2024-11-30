@@ -36,3 +36,13 @@ This project demonstrates advanced API concepts using Django REST Framework (DRF
 1. Install dependencies:
    ```bash
    pip install -r requirements.txt
+
+
+
+## Filtering, Searching, and Ordering in the Book API
+
+### Examples:
+- Filter by author: `/books/?author=JohnDoe`
+- Search by title: `/books/?search=adventure`
+- Order by publication year: `/books/?ordering=-publication_year`
+- Combine features: `/books/?author=JohnDoe&search=adventure&ordering=title`
