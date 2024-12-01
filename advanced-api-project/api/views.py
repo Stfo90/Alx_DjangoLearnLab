@@ -40,8 +40,8 @@ class BookCreateView(CreateAPIView):
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-
+    permission_classes = [IsAuthenticatedOrReadOnly, IsAuthenticated]
+  
 class BookUpdateView(UpdateAPIView):
     """
     View for updating an existing book.
