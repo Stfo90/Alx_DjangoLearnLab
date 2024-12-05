@@ -25,3 +25,34 @@ This user authentication system enables the following functionalities for the `d
 Ensure all dependencies are installed:
 ```bash
 pip install django
+
+
+
+# Blog Post Management Features
+
+## Overview
+This feature enables users to manage blog posts with full CRUD (Create, Read, Update, Delete) functionality.
+
+## Features
+1. **List all posts**: Accessible to all users at `/`.
+2. **View post details**: Accessible to all users at `/posts/<id>/`.
+3. **Create a new post**: Authenticated users can create posts at `/posts/new/`.
+4. **Edit a post**: Only the author can edit posts at `/posts/<id>/edit/`.
+5. **Delete a post**: Only the author can delete posts at `/posts/<id>/delete/`.
+
+## Permissions
+- Only authenticated users can create, edit, or delete posts.
+- List and detail views are accessible to all users.
+
+## Templates
+- `post_list.html`: Displays all posts.
+- `post_detail.html`: Shows a single post.
+- `post_form.html`: Used for both creating and editing posts.
+- `post_confirm_delete.html`: Confirms deletion.
+
+## URLs
+- `/`: List of all posts.
+- `/posts/<id>/`: View post details.
+- `/posts/new/`: Create a new post.
+- `/posts/<id>/edit/`: Edit a post.
+- `/posts/<id>/delete/`: Delete a post.
