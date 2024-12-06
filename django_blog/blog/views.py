@@ -103,40 +103,57 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 
-def add_comment(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-    if request.method == "POST":
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.post = post
-            comment.author = request.user
-            comment.save()
-            return redirect('post-detail', pk=post.id)
-    else:
-        form = CommentForm()
-    return render(request, 'blog/add_comment.html', {'form': form})
 
+# CreateView for adding comments
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'blog/add_comment.html'
+
+    def form_valid(self, form):
+        # Set the author of the comment to the logged-in user
+        form.instance.author = self.request.user
+        # Associate the comment with the specific post using post_id from the URL
+        form.instance.post = get_object_or_404(Post, id=self.kwargs['post_id'])
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        # Redirect to the blog post's detail page after successful comment creation
+        return self.object.post.get_absolute_url()
+
+# UpdateView for editing comments
 class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Comment
     fields = ['content']
     template_name = 'blog/edit_comment.html'
 
     def form_valid(self, form):
+        # Ensure the logged-in user is the author of the comment
         form.instance.author = self.request.user
         return super().form_valid(form)
 
     def test_func(self):
+        # Check if the logged-in user is the author of the comment
         comment = self.get_object()
         return self.request.user == comment.author
 
+# DeleteView for deleting comments
 class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Comment
     template_name = 'blog/delete_comment.html'
 
     def get_success_url(self):
+        # Redirect to the associated post's detail page after comment deletion
         return self.object.post.get_absolute_url()
 
     def test_func(self):
+        # Ensure the logged-in user is the author of the comment
         comment = self.get_object()
         return self.request.user == comment.author
+
+
+
+
+
+
+
