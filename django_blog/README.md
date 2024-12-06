@@ -56,3 +56,24 @@ This feature enables users to manage blog posts with full CRUD (Create, Read, Up
 - `/posts/new/`: Create a new post.
 - `/posts/<id>/edit/`: Edit a post.
 - `/posts/<id>/delete/`: Delete a post.
+
+
+
+## Comment Functionality
+
+### Features
+- Authenticated users can add comments to blog posts.
+- Authors of comments can edit or delete their comments.
+
+### URLs
+- Add Comment: `/post/<post_id>/comment/`
+- Edit Comment: `/comment/<comment_id>/edit/`
+- Delete Comment: `/comment/<comment_id>/delete/`
+
+### Permissions
+- Only authenticated users can add comments.
+- Only the author of a comment can edit or delete it.
+
+### Testing
+- Verify adding, editing, and deleting comments.
+- Ensure unauthorized actions are blocked.
