@@ -10,8 +10,7 @@ from django.urls import reverse_lazy
 from .models import Post,Comment
 from .forms import CommentForm
 from .models import Post, Tag
-
-
+from django.db.models import Q
 
 
 def register_view(request):
@@ -97,6 +96,20 @@ def posts_by_tag(request, tag_name):
     tag = Tag.objects.get(name=tag_name)
     posts = tag.posts.all()
     return render(request, 'blog/posts_by_tag.html', {'tag': tag, 'posts': posts})
+
+
+def search_posts(request):
+    query = request.GET.get('q')  # Get the search query from the GET request
+    if query:
+        posts = Post.objects.filter(
+            Q(title__icontains=query) |  # Filter by title
+            Q(content__icontains=query) |  # Filter by content
+            Q(tags__name__icontains=query)  # Filter by tags (tag name)
+        ).distinct()  # Ensure distinct posts are returned
+    else:
+        posts = Post.objects.all()  # If no query, return all posts
+
+    return render(request, 'blog/search_results.html', {'posts': posts, 'query': query})
 
 # DeleteView to delete a post
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
