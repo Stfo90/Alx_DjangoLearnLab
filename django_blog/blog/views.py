@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404,
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
@@ -8,7 +8,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from .models import Post,Comment
-fron .forms import CommentForm
+from .forms import CommentForm
+from .models import Post, Tag
 
 
 
@@ -90,6 +91,12 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author  # Only allow the author to edit
+
+
+def posts_by_tag(request, tag_name):
+    tag = Tag.objects.get(name=tag_name)
+    posts = tag.posts.all()
+    return render(request, 'blog/posts_by_tag.html', {'tag': tag, 'posts': posts})
 
 # DeleteView to delete a post
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
