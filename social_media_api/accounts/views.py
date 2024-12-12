@@ -4,7 +4,8 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from .models import CustomUser
-from .serializers import UserSerializer, RegisterSerializer
+from .serializers import UserSerializer, RegisterSerializer, FollowSerializer
+from django.shortcuts import get_object_or_404
 
 class RegisterView(APIView):
     def post(self, request):
@@ -33,3 +34,26 @@ class ProfileView(APIView):
         user = request.user
         serializer = UserSerializer(user)
         return Response(serializer.data)
+
+
+class FollowUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, user_id):
+        user_to_follow = get_object_or_404(CustomUser, id=user_id)
+        if request.user == user_to_follow:
+            return Response({'error': "You can't follow yourself!"}, status=400)
+
+        request.user.following.add(user_to_follow)
+        return Response({'message': 'You are now following this user.'})
+
+class UnfollowUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, user_id):
+        user_to_unfollow = get_object_or_404(CustomUser, id=user_id)
+        if request.user == user_to_unfollow:
+            return Response({'error': "You can't unfollow yourself!"}, status=400)
+
+        request.user.following.remove(user_to_unfollow)
+        return Response({'message': 'You have unfollowed this user.'})
