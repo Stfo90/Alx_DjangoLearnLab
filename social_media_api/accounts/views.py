@@ -9,13 +9,13 @@ from .models import CustomUser
 from .serializers import UserSerializer, RegisterSerializer, FollowSerializer, CustomUserSerializer
 from django.shortcuts import get_object_or_404
 
-
-
-
-class UserListView(generics.ListAPIView):
+class UserListView(generics.GenericAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
     permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 
 class RegisterView(APIView):
