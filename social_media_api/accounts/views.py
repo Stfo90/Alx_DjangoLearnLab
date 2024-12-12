@@ -1,11 +1,22 @@
+
+from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from .models import CustomUser
-from .serializers import UserSerializer, RegisterSerializer, FollowSerializer
+from .serializers import UserSerializer, RegisterSerializer, FollowSerializer, CustomUserSerializer
 from django.shortcuts import get_object_or_404
+
+
+
+
+class UserListView(generics.ListAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
+    permission_classes = [IsAuthenticated]
+
 
 class RegisterView(APIView):
     def post(self, request):
