@@ -147,3 +147,188 @@ git push origin feature-name
 
 
 
+---
+
+Social Media API Documentation
+
+Overview
+
+This project is a Social Media API built with Django and Django REST Framework. It includes user authentication, posts, likes, follows, and notifications functionalities.
+
+
+---
+
+Endpoints
+
+Accounts
+
+1. Register a new user:
+
+Endpoint: POST /accounts/register/
+
+Request Body:
+
+{
+  "username": "testuser",
+  "password": "testpassword",
+  "email": "testuser@example.com"
+}
+
+Response:
+
+{
+  "token": "abcd1234efgh5678"
+}
+
+
+
+2. Login a user:
+
+Endpoint: POST /accounts/login/
+
+Request Body:
+
+{
+  "username": "testuser",
+  "password": "testpassword"
+}
+
+Response:
+
+{
+  "token": "abcd1234efgh5678"
+}
+
+
+
+3. Follow a user:
+
+Endpoint: POST /accounts/<user_id>/follow/
+
+Response:
+
+{
+  "message": "You are now following user_id."
+}
+
+
+
+4. Unfollow a user:
+
+Endpoint: POST /accounts/<user_id>/unfollow/
+
+Response:
+
+{
+  "message": "You have unfollowed user_id."
+}
+
+
+
+
+
+---
+
+Posts
+
+1. Create a post:
+
+Endpoint: POST /posts/
+
+Request Body:
+
+{
+  "title": "My Post Title",
+  "content": "This is the post content."
+}
+
+Response:
+
+{
+  "id": 1,
+  "title": "My Post Title",
+  "content": "This is the post content.",
+  "author": "testuser",
+  "created_at": "2024-12-13T12:00:00Z"
+}
+
+
+
+2. Like a post:
+
+Endpoint: POST /posts/<post_id>/like/
+
+Response:
+
+{
+  "message": "Post liked successfully."
+}
+
+
+
+3. Unlike a post:
+
+Endpoint: POST /posts/<post_id>/unlike/
+
+Response:
+
+{
+  "message": "Post unliked successfully."
+}
+
+
+
+
+
+---
+
+Notifications
+
+1. Get notifications:
+
+Endpoint: GET /notifications/
+
+Response:
+
+[
+  {
+    "id": 1,
+    "recipient": "testuser",
+    "actor": "anotheruser",
+    "verb": "liked your post",
+    "timestamp": "2024-12-13T12:00:00Z"
+  }
+]
+
+
+
+2. Mark a notification as read:
+
+Endpoint: POST /notifications/<notification_id>/mark-read/
+
+Response:
+
+{
+  "message": "Notification marked as read."
+}
+
+
+
+
+
+---
+
+Usage Instructions
+
+1. Clone the repository and navigate to the project directory:
+
+git clone https://github.com/<your-username>/Alx_DjangoLearnLab.git
+cd Alx_DjangoLearnLab/social_media_api
+
+
+2. Install dependencies:
+
+pip install -r requirements.txt
+
+
+
